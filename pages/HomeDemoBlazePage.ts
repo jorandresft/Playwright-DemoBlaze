@@ -1,4 +1,3 @@
-import { Page, expect } from "@playwright/test"
 import { BasePage } from "./BasePage";
 
 export class HomeDemoBlazePage extends BasePage{
@@ -57,4 +56,7 @@ export class HomeDemoBlazePage extends BasePage{
         await this.expectVisible(this.elements.category.monitors);
     }
 
+    async clickOnMonitorsCategory () {
+        await this.clicOn(this.elements.category.monitors);
+    }
 }

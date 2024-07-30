@@ -20,7 +20,12 @@ export class BasePage {
         await this.page.locator(selector).fill(value);
     }
 
-    async expectVisible(selector: string){
+    async expectVisible (selector: string){
         await expect(this.page.locator(selector)).toBeVisible();
+    }
+
+    async toEquals (selector: string, text: string) {
+        const textObtenido = await this.page.locator(selector).innerText();
+        expect(textObtenido).toEqual(text)
     }
 }

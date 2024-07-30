@@ -1,6 +1,9 @@
 import { BasePage } from "../pages/BasePage";
 import { HomeDemoBlazePage } from "../pages/HomeDemoBlazePage";
 import { test, expect, Page } from "@playwright/test";
+import { MonitorsPage } from "../pages/MonitorsPage";
+import { ProductMonitorPage } from "../pages/ProductMonitorsPage";
+import { equal } from "assert";
 
 test.describe('Test suite DemoBlaze', async ( ) => {
 
@@ -78,6 +81,41 @@ test.describe('Test suite DemoBlaze', async ( ) => {
 
         await test.step('Validate Monitors category', async() => {
             await demoBlaze.confirmationContactMenu();
+        });
+    });
+
+    test('Select product of Monitors category', async ({ page }) => {
+        const demoBlaze = new HomeDemoBlazePage(page);
+        const monitorPage = new MonitorsPage(page);
+
+        await test.step('Click on Monitors category', async() => {
+            await demoBlaze.clickOnMonitorsCategory();
+        });
+
+        await test.step('Select product of monitors category', async() => {
+            await monitorPage.clickOnProductMonitor();
+        });
+    });
+
+    test('Validate that the product title text is the same', async ({ page }) => {
+        const demoBlaze = new HomeDemoBlazePage(page);
+        const monitorPage = new MonitorsPage(page);
+        const productMonitorPage = new ProductMonitorPage(page);
+
+        await test.step('Click on Monitors category', async() => {
+            await demoBlaze.clickOnMonitorsCategory();
+        });
+
+        await test.step('Select product of monitors category', async() => {
+            await monitorPage.clickOnProductMonitor();
+        });
+
+        await test.step('Validation title of product', async() => {
+            await productMonitorPage.confirmationTitleVisible();
+        });
+
+        await test.step('Validate text is equal', async() => {
+            const text = await productMonitorPage.validateToEqual('Apple monitor 24');
         });
     });
 });
