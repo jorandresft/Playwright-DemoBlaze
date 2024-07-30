@@ -59,4 +59,8 @@ export class HomeDemoBlazePage extends BasePage{
     async clickOnMonitorsCategory () {
         await this.clicOn(this.elements.category.monitors);
     }
+
+    async clickOnCartMenu () {
+        await this.clicOn(this.elements.topMenu.cart);
+    }
 }

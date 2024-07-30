@@ -3,7 +3,7 @@ import { HomeDemoBlazePage } from "../pages/HomeDemoBlazePage";
 import { test, expect, Page } from "@playwright/test";
 import { MonitorsPage } from "../pages/MonitorsPage";
 import { ProductMonitorPage } from "../pages/ProductMonitorsPage";
-import { equal } from "assert";
+import { CartPage } from "../pages/CartPage";
 
 test.describe('Test suite DemoBlaze', async ( ) => {
 
@@ -115,7 +115,68 @@ test.describe('Test suite DemoBlaze', async ( ) => {
         });
 
         await test.step('Validate text is equal', async() => {
-            const text = await productMonitorPage.validateToEqual('Apple monitor 24');
+            await productMonitorPage.validateTitleToEqual('Apple monitor 24');
+        });
+    });
+
+    test('Validate that the product priece is the same', async ({ page }) => {
+        const demoBlaze = new HomeDemoBlazePage(page);
+        const monitorPage = new MonitorsPage(page);
+        const productMonitorPage = new ProductMonitorPage(page);
+
+        await test.step('Click on Monitors category', async() => {
+            await demoBlaze.clickOnMonitorsCategory();
+        });
+
+        await test.step('Select product of monitors category', async() => {
+            await monitorPage.clickOnProductMonitor();
+        });
+
+        await test.step('Validation priece of product', async() => {
+            await productMonitorPage.confirmationPriceVisible();
+        });
+
+        await test.step('Validate text is equal', async() => {
+            await productMonitorPage.validatePriceToEqual('$400 *includes tax');
+        });
+    });
+
+    test('Validate your purchase', async ({ page }) => {
+        const demoBlaze = new HomeDemoBlazePage(page);
+        const monitorPage = new MonitorsPage(page);
+        const productMonitorPage = new ProductMonitorPage(page);
+        const cartPage = new CartPage(page);
+
+        await test.step('Click on Monitors category', async() => {
+            await demoBlaze.clickOnMonitorsCategory();
+        });
+
+        await test.step('Select product of monitors category', async() => {
+            await monitorPage.clickOnProductMonitor();
+        });
+
+        await test.step('Click on Add to cart and Cart menu', async() => {
+            await productMonitorPage.clickOnAddToCart();
+            await demoBlaze.clickOnCartMenu();
+        });
+
+        await test.step('Click on Place Order', async() => {
+            await cartPage.clickOnPlaceOrder();
+        });
+
+        await test.step('Complete purchase', async() => {
+            await cartPage.fillFieldPlaceOrderName('Cosme');
+            await cartPage.fillFieldPlaceOrderCountry('Colombia');
+            await cartPage.fillFieldPlaceOrderCity('Medellín');
+            await cartPage.fillFieldPlaceOrderCard('5555 5555 5555 5555');
+            await cartPage.fillFieldPlaceOrderMonth('1');
+            await cartPage.fillFieldPlaceOrderYear('12');
+            await cartPage.clickOnPurchase();
+        });
+
+        await test.step('Confirmation message for purchase', async() => {
+            await cartPage.confirmationMessageVisible();
+            await cartPage.validateMessageToEqual('Thank you for your purchase!');
         });
     });
 });
