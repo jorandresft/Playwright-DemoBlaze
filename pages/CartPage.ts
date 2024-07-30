@@ -8,7 +8,6 @@ export class CartPage extends BasePage {
             buttons: {
                 placeOrder: '.btn-success',
                 purchase: '//button[contains(text(),"Purchase")]'
-
             },
             fields: {
                 name: '#name',
