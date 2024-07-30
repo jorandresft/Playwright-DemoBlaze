@@ -18,7 +18,7 @@ export class ProductMonitorPage extends BasePage{
         await this.expectVisible(this.elements.details.title);
     }
 
-    async validateToEqual (text: string) {
-        await this.toEquals(this.elements.details.title, text);
+    async validateToEqual (textExpected: string) {
+        await this.toEquals(this.elements.details.title, textExpected);
     }
 }

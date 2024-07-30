@@ -24,8 +24,8 @@ export class BasePage {
         await expect(this.page.locator(selector)).toBeVisible();
     }
 
-    async toEquals (selector: string, text: string) {
-        const textObtenido = await this.page.locator(selector).innerText();
-        expect(textObtenido).toEqual(text)
+    async toEquals (selector: string, textExpected: string) {
+        const textReceived = await this.page.locator(selector).innerText();
+        expect(textReceived).toEqual(textExpected)
     }
 }
